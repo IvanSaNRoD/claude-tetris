@@ -15,10 +15,6 @@ body {
   user-select: none;
 }
 
-.wrapper {
-  position: relative;
-}
-
 .game-title {
   text-align: center;
   font-size: 32px;
@@ -30,6 +26,7 @@ body {
 }
 
 .game-container {
+  position: relative;
   display: flex;
   gap: 20px;
   align-items: flex-start;
