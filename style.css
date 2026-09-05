@@ -15,11 +15,18 @@ body {
   user-select: none;
 }
 
-.wrapper {
-  position: relative;
+.game-title {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: 10px;
+  color: #7aa2f7;
+  margin-bottom: 20px;
+  text-shadow: 0 0 20px rgba(122, 162, 247, 0.4);
 }
 
 .game-container {
+  position: relative;
   display: flex;
   gap: 20px;
   align-items: flex-start;
