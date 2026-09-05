@@ -1,0 +1,45 @@
+name: Claude Issue Triage
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Run Claude Issue Triage
+        id: claude-triage
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            Analiza el issue #${{ github.event.issue.number }} de este repositorio (un juego de Tetris en JavaScript vanilla, ver CLAUDE.md para la arquitectura).
+
+            Título: ${{ github.event.issue.title }}
+            Cuerpo: ${{ github.event.issue.body }}
+
+            Realiza estas dos acciones:
+
+            1. Clasifica el issue y aplica el label más apropiado de este set estándar (uno o varios si aplica):
+               bug, enhancement, question, documentation, duplicate, wontfix
+               Usa `gh issue edit ${{ github.event.issue.number }} --add-label "<label>"` para aplicarlo. Si el label no existe en el repo, créalo primero con `gh label create` usando un color razonable.
+
+            2. Publica un comentario técnico en el issue (`gh issue comment ${{ github.event.issue.number }} --body "..."`) con un diagnóstico general que sirva de base para implementar la solución después. El comentario debe incluir:
+               - Resumen breve del problema o solicitud.
+               - Causa probable (si es un bug) o alcance esperado (si es una mejora).
+               - Archivos y funciones de este repo que probablemente estén involucrados (revisa game.js, index.html, style.css — funciones relevantes como collide, rotateCW, tryRotate, clearLines, spawn, loop, draw, etc.).
+               - Sugerencia de enfoque para la solución, sin escribir el código todavía.
+
+               No implementes la solución en esta acción, solo diagnostica.
+          claude_args: '--allowedTools "Bash(gh issue edit:*),Bash(gh issue comment:*),Bash(gh label create:*),Bash(gh label list:*)"'
