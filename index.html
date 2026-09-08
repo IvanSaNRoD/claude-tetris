@@ -58,6 +58,23 @@
         <div class="overlay-box">
           <p id="overlay-title">GAME OVER</p>
           <p id="overlay-score"></p>
+          <div id="overlay-highscore-section" class="highscore-section hidden">
+            <p id="overlay-stats" class="highscore-stats"></p>
+            <div id="highscore-entry" class="highscore-entry hidden">
+              <input id="player-name-input" type="text" maxlength="12" placeholder="Jugador" autocomplete="off" />
+              <button id="save-score-btn" class="btn" type="button">Guardar</button>
+            </div>
+            <div class="highscore-table-wrap">
+              <span class="label">TOP 5</span>
+              <table class="highscore-table">
+                <thead>
+                  <tr><th>#</th><th>Nombre</th><th>Puntos</th><th>Combo</th><th>Líneas</th></tr>
+                </thead>
+                <tbody id="overlay-highscores"></tbody>
+              </table>
+            </div>
+            <button id="reset-scores-btn" class="secondary-btn" type="button">Resetear records</button>
+          </div>
           <button id="restart-btn" class="btn">Reiniciar</button>
         </div>
       </div>
@@ -97,6 +114,23 @@
               <option value="10">10</option>
             </select>
           </div>
+        </div>
+      </div>
+
+      <div id="start-screen" class="overlay hidden">
+        <div class="overlay-box">
+          <p id="start-title" class="game-title-overlay">TETRIS</p>
+          <div class="highscore-table-wrap">
+            <span class="label">TOP 5</span>
+            <table class="highscore-table">
+              <thead>
+                <tr><th>#</th><th>Nombre</th><th>Puntos</th><th>Combo</th><th>Líneas</th></tr>
+              </thead>
+              <tbody id="start-highscores"></tbody>
+            </table>
+          </div>
+          <button id="play-btn" class="btn" type="button">Jugar</button>
+          <button id="reset-scores-start-btn" class="secondary-btn" type="button">Resetear records</button>
         </div>
       </div>
     </div>
