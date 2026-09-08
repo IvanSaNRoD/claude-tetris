@@ -89,6 +89,23 @@ body {
   border-color: var(--accent);
 }
 
+.skin-select {
+  background: var(--kbd-bg);
+  border: 1px solid var(--kbd-border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  color: var(--fg);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.skin-select:hover,
+.skin-select:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
 .game-container {
   position: relative;
   display: flex;
@@ -145,6 +162,13 @@ body {
 
 .preview-locked {
   opacity: 0.35;
+}
+
+/* ---- Skins ---- */
+[data-skin="neon"] #board,
+[data-skin="neon"] #next-canvas {
+  background: #05050a;
+  box-shadow: 0 0 40px var(--shadow), 0 0 24px rgba(122, 162, 247, 0.15);
 }
 
 /* ---- Controles ---- */
