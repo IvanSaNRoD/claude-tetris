@@ -204,7 +204,7 @@ kbd {
   color: var(--accent);
 }
 
-#restart-btn {
+.btn {
   margin-top: 8px;
   background: var(--accent);
   color: var(--accent-contrast);
@@ -218,6 +218,92 @@ kbd {
   transition: background 0.15s;
 }
 
-#restart-btn:hover {
+.btn:hover {
   background: var(--accent-hover);
+}
+
+.btn-secondary {
+  background: var(--kbd-bg);
+  color: var(--fg);
+  border: 1px solid var(--kbd-border);
+}
+
+.btn-secondary:hover {
+  background: var(--kbd-border);
+}
+
+/* ---- Menu de pausa ---- */
+.pause-box {
+  min-width: 220px;
+}
+
+.pause-title {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: var(--overlay-title);
+}
+
+.pause-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.pause-actions .btn {
+  margin-top: 0;
+}
+
+.pause-controls {
+  width: 100%;
+  text-align: left;
+  background: var(--board-bg);
+  border: 1px solid var(--board-border);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+
+.pause-controls.hidden {
+  display: none;
+}
+
+.pause-controls ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pause-controls li {
+  font-size: 12px;
+  color: var(--controls-fg);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pause-level-select {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+}
+
+.pause-level-select label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--panel-label);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.pause-level-select select {
+  background: var(--kbd-bg);
+  color: var(--fg);
+  border: 1px solid var(--kbd-border);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
 }
