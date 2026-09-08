@@ -221,3 +221,140 @@ kbd {
 #restart-btn:hover {
   background: var(--accent-hover);
 }
+
+.secondary-btn {
+  margin-top: 4px;
+  background: transparent;
+  color: var(--controls-fg);
+  border: 1px solid var(--kbd-border);
+  border-radius: 6px;
+  padding: 8px 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.secondary-btn:hover {
+  border-color: var(--overlay-title);
+  color: var(--overlay-title);
+}
+
+/* ---- Highscores ---- */
+.game-title-overlay {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 6px;
+  color: var(--accent);
+}
+
+.highscore-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.highscore-section.hidden {
+  display: none;
+}
+
+.highscore-stats {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  color: var(--fg);
+  text-align: center;
+}
+
+.highscore-entry {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.highscore-entry.hidden {
+  display: none;
+}
+
+#player-name-input {
+  background: var(--kbd-bg);
+  border: 1px solid var(--kbd-border);
+  border-radius: 6px;
+  color: var(--fg);
+  padding: 8px 10px;
+  font-size: 13px;
+  width: 130px;
+  font-family: inherit;
+}
+
+#player-name-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+#save-score-btn {
+  background: var(--accent);
+  color: var(--accent-contrast);
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+#save-score-btn:hover {
+  background: var(--accent-hover);
+}
+
+.highscore-table-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+
+.highscore-table {
+  border-collapse: collapse;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  min-width: 260px;
+}
+
+.highscore-table th,
+.highscore-table td {
+  padding: 4px 10px;
+  text-align: center;
+  color: var(--fg);
+}
+
+.highscore-table thead th {
+  color: var(--panel-label);
+  font-size: 10px;
+  letter-spacing: 1px;
+  border-bottom: 1px solid var(--kbd-border);
+}
+
+.highscore-table td:nth-child(2) {
+  text-align: left;
+}
+
+.highscore-empty {
+  color: var(--controls-fg);
+  font-style: italic;
+  padding: 10px;
+}
+
+.highscore-row--current {
+  background: rgba(122, 162, 247, 0.18);
+  color: var(--accent);
+  font-weight: 700;
+  border-radius: 4px;
+}
+
+.highscore-row--current td {
+  color: var(--accent);
+}
