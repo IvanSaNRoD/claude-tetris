@@ -25,7 +25,7 @@ Then open `http://localhost:8000` in a browser. The game is fully playable immed
 
 - **`requestAnimationFrame`-based loop** in `loop()`: accumulates elapsed time, drops pieces at intervals, calls `draw()` every frame.
 - **Canvas 2D rendering**: grid, board state, current piece, ghost piece (faint preview), next piece on secondary canvas.
-- **Game state**: `board` (matrix of color indices 0–7), `current` and `next` (piece objects with shape/position), `score`, `lines`, `level`, `paused`, `gameOver`.
+- **Game state**: `board` (matrix of color indices 0–7), `current` and `next` (piece objects with shape/position), `score`, `lines`, `level`, `combo`/`maxCombo`, `paused`, `gameOver`.
 
 ### Key Logic
 
@@ -34,6 +34,8 @@ Then open `http://localhost:8000` in a browser. The game is fully playable immed
 - **Line clearing** (`clearLines`): scans from bottom up, removes full rows, adds empty rows at top.
 - **Scoring**: classic table `[0, 100, 300, 500, 800]` for 1–4 line clears, multiplied by level. Hard drop adds 2 pts/cell, soft drop 1 pt/row.
 - **Piece spawning** (`spawn`): checks collision immediately—if blocked, triggers `endGame()`.
+- **Combo** (`lockPiece`): counts consecutive locks that clear at least one line; resets to 0 on a lock without clears. `maxCombo` is the per-game peak.
+- **Local records** (`loadRecords`/`saveRecords`/`renderRecords`/`submitScore`): top 5 entries `{name, score, lines, level, combo, date}` plus global `bestCombo`/`maxLines`, persisted in `localStorage` under `tetris-records`. Rendered into both `#start-records` and `#overlay-records`; the freshly inserted row gets `.is-new`. Names are escaped with `escapeHTML` before hitting `innerHTML`.
 
 ### Customization Points
 
@@ -46,14 +48,19 @@ All tuneable constants at the top of `game.js`:
 | `BLOCK`     | 30      | Pixel size per cell                    |
 | `COLORS`    | Array   | Color hex strings for each piece type  |
 | `LINE_SCORES` | [0,100,300,500,800] | Points per N lines cleared |
+| `MAX_RECORDS` | 5       | Entries kept in the local high-score table |
+| `MAX_NAME_LEN` | 10     | Max characters for a record name        |
 
 Changing `COLS`/`ROWS`/`BLOCK` requires matching `<canvas width>` and `<canvas height>` in `index.html` (formula: `width = COLS × BLOCK`, `height = ROWS × BLOCK`).
 
 ## Controls & Game States
 
 - **Arrow keys** (←/→): move left/right. **↑ or X**: rotate. **↓**: soft drop. **Space**: hard drop. **P**: pause.
-- **States**: playing, paused (overlay hides board), game over (shows score + restart button).
+- **States**: start screen (`#start-overlay`, shows records + `Jugar` + reset button), playing, paused (overlay hides board), game over (`#overlay`: score summary, name form when the run enters the top 5, records table, restart + menu buttons).
+- `resetState()` builds a fresh game; `init()` starts the loop, `showStart()` returns to the start screen. The page boots into `showStart()`.
 
 ## Testing Locally
 
 Open the browser's developer console to inspect `board`, `current`, `score`, etc., or add temporary `console.log()` calls in the game loop.
+
+Records live in `localStorage['tetris-records']` (theme in `tetris-theme`); clear them from the start screen's reset button or with `localStorage.clear()`.
