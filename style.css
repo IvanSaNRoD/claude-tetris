@@ -36,6 +36,65 @@
   --shadow: rgba(0, 0, 0, 0.15);
 }
 
+/* ---- Skins: sobreescriben al tema (van despues para ganar en cascada) ---- */
+[data-skin="neon"] {
+  --bg: #05050c;
+  --fg: #e8e8ff;
+  --accent: #00f0ff;
+  --accent-contrast: #05050c;
+  --accent-hover: #66f7ff;
+  --board-bg: #05050a;
+  --board-border: #00f0ff;
+  --panel-label: #6a6a9a;
+  --kbd-bg: #11112a;
+  --kbd-border: #2c2c5c;
+  --kbd-fg: #9a9ad0;
+  --controls-fg: #8a8ac0;
+  --overlay-bg: rgba(5, 5, 12, 0.8);
+  --overlay-title: #ff0055;
+  --shadow: rgba(0, 240, 255, 0.25);
+}
+
+[data-skin="pastel"] {
+  --accent: #8b7bd8;
+  --accent-hover: #a698e6;
+  --overlay-title: #e08a8a;
+}
+
+[data-skin="pastel"]:not([data-theme="light"]) {
+  --board-bg: #232330;
+  --board-border: #3a3a4e;
+}
+
+[data-skin="pastel"][data-theme="light"] {
+  --bg: #f7f4fb;
+  --board-bg: #fffdff;
+  --board-border: #ddd6ea;
+  --accent-contrast: #ffffff;
+}
+
+[data-skin="pixel"] {
+  --accent: #e0c02c;
+  --accent-hover: #f2d54e;
+  --overlay-title: #d43f3f;
+}
+
+[data-skin="pixel"] .game-title,
+[data-skin="pixel"] .value,
+[data-skin="pixel"] #overlay-title {
+  font-family: 'Courier New', Courier, monospace;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.35);
+}
+
+[data-skin="pixel"] #board,
+[data-skin="pixel"] #next-canvas,
+[data-skin="pixel"] #hold-canvas,
+[data-skin="pixel"] #restart-btn,
+[data-skin="pixel"] .skin-select {
+  border-radius: 0;
+  image-rendering: pixelated;
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -226,4 +285,24 @@ kbd {
 
 #restart-btn:hover {
   background: var(--accent-hover);
+}
+
+/* ---- Selector de skin ---- */
+.skin-select {
+  background: var(--kbd-bg);
+  color: var(--fg);
+  border: 1px solid var(--kbd-border);
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+  width: 100%;
+  transition: border-color 0.15s;
+}
+
+.skin-select:hover,
+.skin-select:focus {
+  border-color: var(--accent);
+  outline: none;
 }

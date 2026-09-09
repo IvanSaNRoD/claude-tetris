@@ -25,6 +25,7 @@ Then open `http://localhost:8000` in a browser. The game is fully playable immed
 
 - **`requestAnimationFrame`-based loop** in `loop()`: accumulates elapsed time, drops pieces at intervals, calls `draw()` every frame.
 - **Canvas 2D rendering**: grid, board state, current piece, ghost piece (faint preview), next piece on secondary canvas.
+- **Skins**: `drawBlock` dispatches to `SKINS[currentSkin].draw` (`drawBlockRetro` / `drawBlockNeon` / `drawBlockPastel` / `drawBlockPixel`). Each skin also supplies its own palette and grid color per theme; CSS side lives in `[data-skin="..."]` blocks in `style.css`. Selected via `#skin-select`, persisted in `localStorage['tetris-skin']`, applied live by `applySkin()` (no reload).
 - **Game state**: `board` (matrix of color indices 0–7), `current` and `next` (piece objects with shape/position), `score`, `lines`, `level`, `paused`, `gameOver`.
 
 ### Key Logic
@@ -44,7 +45,7 @@ All tuneable constants at the top of `game.js`:
 | `COLS`      | 10      | Board width; update canvas width too   |
 | `ROWS`      | 20      | Board height; update canvas height too |
 | `BLOCK`     | 30      | Pixel size per cell                    |
-| `COLORS`    | Array   | Color hex strings for each piece type  |
+| `SKINS`     | Object  | Temas visuales: paleta, color de rejilla y funcion de dibujo por skin |
 | `LINE_SCORES` | [0,100,300,500,800] | Points per N lines cleared |
 
 Changing `COLS`/`ROWS`/`BLOCK` requires matching `<canvas width>` and `<canvas height>` in `index.html` (formula: `width = COLS × BLOCK`, `height = ROWS × BLOCK`).
@@ -53,6 +54,7 @@ Changing `COLS`/`ROWS`/`BLOCK` requires matching `<canvas width>` and `<canvas h
 
 - **Arrow keys** (←/→): move left/right. **↑ or X**: rotate. **↓**: soft drop. **Space**: hard drop. **P**: pause.
 - **States**: playing, paused (overlay hides board), game over (shows score + restart button).
+- **Skin selector** (`SKIN` panel): Retro, Neon, Pastel, Pixel art. Independent of the light/dark theme toggle (`localStorage['tetris-theme']`).
 
 ## Testing Locally
 
