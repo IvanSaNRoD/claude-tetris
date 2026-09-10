@@ -390,3 +390,178 @@ kbd {
   align-items: center;
   gap: 6px;
 }
+
+/* ---- Récords ---- */
+.overlay-box {
+  max-width: 280px;
+}
+
+.overlay-heading {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: var(--accent);
+}
+
+.records {
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.record-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+}
+
+.record-row {
+  display: grid;
+  grid-template-columns: 16px 1fr auto;
+  gap: 6px;
+  align-items: baseline;
+  padding: 4px 6px;
+  border-radius: 4px;
+  background: var(--kbd-bg);
+  border: 1px solid transparent;
+  text-align: left;
+}
+
+.record-row.is-new {
+  border-color: var(--accent);
+  color: var(--accent);
+  animation: record-pulse 1s ease-in-out 3;
+}
+
+@keyframes record-pulse {
+  0%, 100% { box-shadow: 0 0 0 rgba(122, 162, 247, 0); }
+  50% { box-shadow: 0 0 12px var(--accent); }
+}
+
+.record-rank {
+  color: var(--panel-label);
+  font-weight: 700;
+}
+
+.record-name {
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.record-score {
+  font-weight: 700;
+}
+
+.record-meta {
+  grid-column: 2 / -1;
+  font-size: 10px;
+  color: var(--controls-fg);
+  letter-spacing: 1px;
+}
+
+.record-empty {
+  font-size: 12px;
+  color: var(--controls-fg);
+  font-style: italic;
+}
+
+.record-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--panel-label);
+  border-top: 1px solid var(--kbd-border);
+  padding-top: 6px;
+}
+
+.record-stats b {
+  color: var(--accent);
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* ---- Formulario de nombre ---- */
+.name-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 240px;
+}
+
+.name-form.hidden {
+  display: none;
+}
+
+.name-label {
+  font-size: 11px;
+  color: var(--fg);
+  letter-spacing: 1px;
+}
+
+.name-row {
+  display: flex;
+  gap: 6px;
+}
+
+.name-input {
+  flex: 1;
+  min-width: 0;
+  background: var(--board-bg);
+  border: 1px solid var(--kbd-border);
+  border-radius: 6px;
+  padding: 7px 10px;
+  color: var(--fg);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  text-transform: uppercase;
+  user-select: text;
+}
+
+.name-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* ---- Botón secundario ---- */
+.ghost-btn {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--kbd-border);
+  border-radius: 6px;
+  padding: 7px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.ghost-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent-hover);
+}
+
+#start-btn {
+  margin-top: 4px;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  border: none;
+  border-radius: 6px;
+  padding: 10px 28px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: background 0.15s;
+}
+
+#start-btn:hover {
+  background: var(--accent-hover);
+}
