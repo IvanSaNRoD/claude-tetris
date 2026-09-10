@@ -64,11 +64,22 @@ const themeToggleBtn = document.getElementById('theme-toggle');
 const skinSelect = document.getElementById('skin-select');
 const themeToggleIcon = themeToggleBtn.querySelector('.theme-toggle-icon');
 
+const pauseOverlay = document.getElementById('pause-overlay');
+const pauseMainView = document.getElementById('pause-main-view');
+const pauseControlsView = document.getElementById('pause-controls-view');
+const resumeBtn = document.getElementById('resume-btn');
+const pauseRestartBtn = document.getElementById('pause-restart-btn');
+const showControlsBtn = document.getElementById('show-controls-btn');
+const backToPauseBtn = document.getElementById('back-to-pause-btn');
+const startLevelSelect = document.getElementById('start-level-select');
+
 const THEME_STORAGE_KEY = 'tetris-theme';
+const START_LEVEL_STORAGE_KEY = 'tetris-start-level';
 
 let board, current, next, holdPiece, canHold, score, lines, level, paused, gameOver, lastTime, dropAccum, dropInterval, animId;
 let currentTheme = 'dark';
 let currentSkin = 'retro';
+let startLevel = 1;
 
 function createBoard() {
   return Array.from({ length: ROWS }, () => new Array(COLS).fill(0));
@@ -137,7 +148,7 @@ function clearLines() {
   if (cleared) {
     lines += cleared;
     score += (LINE_SCORES[cleared] || 0) * level;
-    level = Math.floor(lines / 10) + 1;
+    level = Math.max(startLevel, Math.floor(lines / 10) + 1);
     dropInterval = Math.max(100, 1000 - (level - 1) * 90);
     updateHUD();
   }
@@ -403,16 +414,54 @@ function initSkin() {
 
 function togglePause() {
   if (gameOver) return;
-  paused = !paused;
-  if (!paused) {
-    lastTime = performance.now();
-    loop(lastTime);
+  if (paused) {
+    resumeGame();
   } else {
-    cancelAnimationFrame(animId);
-    overlayTitle.textContent = 'PAUSA';
-    overlayScore.textContent = '';
-    overlay.classList.remove('hidden');
+    pauseGame();
   }
+}
+
+function pauseGame() {
+  if (gameOver || paused) return;
+  paused = true;
+  cancelAnimationFrame(animId);
+  showPauseMainView();
+  pauseOverlay.classList.remove('hidden');
+}
+
+function resumeGame() {
+  if (!paused) return;
+  paused = false;
+  pauseOverlay.classList.add('hidden');
+  lastTime = performance.now();
+  loop(lastTime);
+}
+
+function showPauseMainView() {
+  pauseMainView.classList.remove('hidden');
+  pauseControlsView.classList.add('hidden');
+}
+
+function showPauseControlsView() {
+  pauseMainView.classList.add('hidden');
+  pauseControlsView.classList.remove('hidden');
+}
+
+function applyStartLevel(value) {
+  startLevel = Math.min(10, Math.max(1, parseInt(value, 10) || 1));
+  localStorage.setItem(START_LEVEL_STORAGE_KEY, String(startLevel));
+}
+
+function initStartLevel() {
+  const saved = parseInt(localStorage.getItem(START_LEVEL_STORAGE_KEY), 10);
+  startLevel = Number.isInteger(saved) && saved >= 1 && saved <= 10 ? saved : 1;
+  startLevelSelect.value = String(startLevel);
+}
+
+function restartFromPause() {
+  pauseOverlay.classList.add('hidden');
+  paused = false;
+  init();
 }
 
 function loop(ts) {
@@ -435,10 +484,10 @@ function init() {
   board = createBoard();
   score = 0;
   lines = 0;
-  level = 1;
+  level = startLevel;
   paused = false;
   gameOver = false;
-  dropInterval = 1000;
+  dropInterval = Math.max(100, 1000 - (level - 1) * 90);
   dropAccum = 0;
   lastTime = performance.now();
   holdPiece = null;
@@ -453,7 +502,7 @@ function init() {
 }
 
 document.addEventListener('keydown', e => {
-  if (e.code === 'KeyP') { togglePause(); return; }
+  if (e.code === 'KeyP' || e.code === 'Escape') { togglePause(); return; }
   if (paused || gameOver) return;
   switch (e.code) {
     case 'ArrowLeft':
@@ -486,6 +535,13 @@ restartBtn.addEventListener('click', init);
 themeToggleBtn.addEventListener('click', toggleTheme);
 skinSelect.addEventListener('change', e => applySkin(e.target.value));
 
+resumeBtn.addEventListener('click', resumeGame);
+pauseRestartBtn.addEventListener('click', restartFromPause);
+showControlsBtn.addEventListener('click', showPauseControlsView);
+backToPauseBtn.addEventListener('click', showPauseMainView);
+startLevelSelect.addEventListener('change', e => applyStartLevel(e.target.value));
+
 initTheme();
 initSkin();
+initStartLevel();
 init();
